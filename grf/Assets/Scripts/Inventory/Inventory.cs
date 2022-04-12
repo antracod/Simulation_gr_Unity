@@ -1,67 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
-{
+public class Inventory : MonoBehaviour {
 
 	#region Singleton
 
 	public static Inventory instance;
 
-	void Awake()
+	void Awake ()
 	{
-		if (instance != null)
-		{
-			Debug.LogWarning("More than one instance of Inventory found!");
-			return;
-		}
-
 		instance = this;
 	}
 
 	#endregion
 
-	// Callback which is triggered when
-	// an item gets added/removed.
 	public delegate void OnItemChanged();
 	public OnItemChanged onItemChangedCallback;
 
-	public int space = 20;  // Amount of slots in inventory
+	public int space = 10;	// Amount of item spaces
 
-	// Current list of items in inventory
+	// Our current list of items in the inventory
 	public List<Item> items = new List<Item>();
 
-	// Add a new item. If there is enough room we
-	// return true. Else we return false.
-	public bool Add(Item item)
+    public int gold;
+
+    private void Update()
+    {
+        // Update Gold UI
+        GameObject inventoryUI = GameObject.Find("Canvas").transform.Find("Inventory").gameObject;
+        if(inventoryUI.activeSelf)
+            inventoryUI.transform.Find("Gold").Find("Value").GetComponent<Text>().text = gold.ToString();
+
+    }
+
+    // Add a new item if enough room
+    public void Add (Item item)
 	{
-		// Don't do anything if it's a default item
-		if (!item.isDefaultItem)
-		{
-			// Check if out of space
-			if (items.Count >= space)
-			{
-				Debug.Log("Not enough room.");
-				return false;
+		if (item.showInInventory) {
+			if (items.Count >= space) {
+				Debug.Log ("Not enough room.");
+				return;
 			}
 
-			items.Add(item);    // Add item to list
+			items.Add (item);
 
-			// Trigger callback
 			if (onItemChangedCallback != null)
-				onItemChangedCallback.Invoke();
+				onItemChangedCallback.Invoke ();
 		}
-
-		return true;
 	}
 
 	// Remove an item
-	public void Remove(Item item)
+	public void Remove (Item item)
 	{
-		items.Remove(item);     // Remove item from list
+		items.Remove(item);
 
-		// Trigger callback
 		if (onItemChangedCallback != null)
 			onItemChangedCallback.Invoke();
 	}

@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Fire
   - bridge
+  - Item
+  - Model
+  - Enemy
+  - XWEAPON
+  - XSHIELD
   layers:
   - Default
   - TransparentFX
@@ -15,7 +20,7 @@ TagManager:
   - UI
   - 
   - Ground
-  - 
+  - Interactable
   - 
   - 
   - 
