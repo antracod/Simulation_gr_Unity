@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 /* Sits on all InventorySlots. */
 
-public class InventorySlot : MonoBehaviour
-{
+public class InventorySlot : MonoBehaviour {
 
-	public Image icon;          // Reference to the Icon image
-	public Button removeButton; // Reference to the remove button
+	public Image icon;
+	public Button removeButton;
 
-	Item item;  // Current item in the slot
+	Item item;	// Current item in the slot
 
 	// Add item to the slot
-	public void AddItem(Item newItem)
+	public void AddItem (Item newItem)
 	{
 		item = newItem;
 
@@ -22,7 +23,7 @@ public class InventorySlot : MonoBehaviour
 	}
 
 	// Clear the slot
-	public void ClearSlot()
+	public void ClearSlot ()
 	{
 		item = null;
 
@@ -31,14 +32,14 @@ public class InventorySlot : MonoBehaviour
 		removeButton.interactable = false;
 	}
 
-	// Called when the remove button is pressed
-	public void OnRemoveButton()
+	// If the remove button is pressed, this function will be called.
+	public void RemoveItemFromInventory ()
 	{
 		Inventory.instance.Remove(item);
 	}
 
-	// Called when the item is pressed
-	public void UseItem()
+	// Use the item
+	public void UseItem ()
 	{
 		if (item != null)
 		{
